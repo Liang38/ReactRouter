@@ -1,57 +1,41 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import AllAlbums from './AllAlbums';
+import AllArtists from './AllArtists'
 import SingleAlbum from './SingleAlbum';
+import SingleArtist from './SingleArtist';
 import Sidebar from './Sidebar';
 import Player from './Player';
+import { HashRouter, Route, Link } from 'react-router-dom';
+
 
 export default class Main extends Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props);
-    this.state = {
-      albums: [],
-      selectedAlbum: {}
-    };
-    this.selectAlbum = this.selectAlbum.bind(this);
-    this.deselectAlbum = this.deselectAlbum.bind(this);
+    
   }
 
-  componentDidMount () {
-    axios.get('/api/albums/')
-      .then(res => res.data)
-      .then(albums => {
-        this.setState({ albums })
-      });
-  }
-
-  selectAlbum (albumId) {
-    axios.get(`/api/albums/${albumId}`)
-      .then(res => res.data)
-      .then(album => this.setState({
-        selectedAlbum: album
-      }));
-  }
-
-  deselectAlbum () {
-    this.setState({ selectedAlbum: {}});
-  }
-
-  render () {
+  render() {
     return (
-      <div id="main" className="container-fluid">
-        <div className="col-xs-2">
-          <Sidebar deselectAlbum={this.deselectAlbum} />
+      <HashRouter>
+        <div id="main" className="container-fluid">
+          <div className="col-xs-2">
+            <Sidebar />
+          </div>
+
+          <div className="col-xs-10">
+            <Route exact path="/" component={AllAlbums} />
+            <Route exact path="/albums" component={AllAlbums} />
+            <Route exact path="/artists" component={AllArtists} />
+            <Route exact path="/artists/:artistId" component={SingleArtist} />
+            <Route exact path="/albums/:albumId" component={SingleAlbum} />
+
+          </div>
+
+
+          <Player />
         </div>
-        <div className="col-xs-10">
-        {
-          this.state.selectedAlbum.id ?
-          <SingleAlbum album={this.state.selectedAlbum} /> :
-          <AllAlbums albums={this.state.albums} selectAlbum={this.selectAlbum} />
-        }
-        </div>
-        <Player />
-      </div>
+      </HashRouter>
     );
   }
 }
