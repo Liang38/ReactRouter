@@ -6,7 +6,7 @@ export default class AllArtists extends Component {
 
   constructor(props){
     super(props);
-    this.state={
+    this.state = {
       artists: []
     }
   }
@@ -14,13 +14,14 @@ export default class AllArtists extends Component {
     axios.get('/api/artists/')
       .then(res => res.data)
       .then(artists => {
-        this.setState({ artists })
+        this.setState({ artists: artists })
+        console.log(artists)
       });
   }
   render () {
     const artists = this.state.artists;
     // const selectArtist = this.props.selectArtist;
-    console.log(this.state.artists);
+    // console.log(this.state.artists);
 
     return (
         <div>
@@ -39,4 +40,5 @@ export default class AllArtists extends Component {
         </div>
         </div>
     );
-  }}
+  }
+}

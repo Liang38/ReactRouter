@@ -5,7 +5,8 @@ import SingleAlbum from './SingleAlbum';
 import SingleArtist from './SingleArtist';
 import Sidebar from './Sidebar';
 import Player from './Player';
-import { HashRouter, Route, Link } from 'react-router-dom';
+import StatefulAlbums from './StatefulAlbums';
+import { HashRouter, Route, Link, Switch} from 'react-router-dom';
 
 
 export default class Main extends Component {
@@ -22,14 +23,15 @@ export default class Main extends Component {
           <div className="col-xs-2">
             <Sidebar />
           </div>
-
+          
           <div className="col-xs-10">
-            <Route exact path="/" component={AllAlbums} />
-            <Route exact path="/albums" component={AllAlbums} />
-            <Route exact path="/artists" component={AllArtists} />
-            <Route exact path="/artists/:artistId" component={SingleArtist} />
-            <Route exact path="/albums/:albumId" component={SingleAlbum} />
-
+            <Switch>
+              <Route exact path="/" component={StatefulAlbums} />
+              <Route exact path="/albums" component={StatefulAlbums} />
+              <Route exact path="/artists" component={AllArtists} />
+              <Route path="/artists/:artistId" component={SingleArtist} />
+              <Route path="/albums/:albumId" component={SingleAlbum} />
+            </Switch>
           </div>
 
 
